@@ -56,7 +56,7 @@ class Nico(QMainWindow):
 
         self.menubar.setVisible(True)
         self.menubar.setNativeMenuBar(True)
-        self.menubar.adjustSize()
+        # self.menubar.adjustSize()
 
     def open_settings(self):
         self.user_data = UserDataController()
