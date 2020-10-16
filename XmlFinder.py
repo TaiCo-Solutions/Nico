@@ -24,32 +24,22 @@ class XmlFinder():
         if os.path.isdir(folder_path):
             file_list = os.listdir(folder_path)
             total_files = len(file_list)
-            self.text_message.append(f"Clasificando: {total_files} archivos.")
+            self.text_message.append(f"Clasificando: {total_files} archivos.\nPor favor espere...")
             for file_name in file_list:
                 file_path = os.path.join(folder_path, file_name)
                 if ".xml" in file_name or ".XML" in file_name:
                     file_data = open(file_path, "r", encoding='utf-8')
                     file_data_str = file_data.read()
                     try:
-                        self.text_message.append(
-                            f"Codificando {file_name} a latin1")
                         file_data_str = file_data_str.encode('latin1')
                     except:
-                        self.text_message.append(
-                            f"Error: Codificando {file_name} a utf-8")
                         file_data_str = file_data_str.encode('utf-8')
                     file_data.close()
                     try:
-                        self.text_message.append(
-                            f"Decodificando {file_name} a CP1252")
                         xml_data = file_data_str.decode('cp1252')
                         if "<" not in xml_data:
-                            self.text_message.append(
-                                f"Decodificando {file_name} a ISO-8859-1")
                             xml_data = file_data_str.decode("ISO-8859-1")
                     except:
-                        self.text_message.append(
-                            f"Decodificando {file_name} a utf-8")
                         xml_data = file_data_str.decode("utf-8")
 
                     if self.explore_xml(xml_data):
@@ -92,10 +82,10 @@ class XmlFinder():
         xml_data = xml_data.replace("\n", "")
         if len(xml_data) > 0:
             xml_dictionary = xmltodict.parse(xml_data)
-            if "RespuestaHacienda" in xml_data:
+            if "<RespuestaHacienda" in xml_data:
                 xml_dictionary = xml_dictionary["RespuestaHacienda"]
 
-            if "MensajeHacienda" in xml_data:
+            if "<MensajeHacienda" in xml_data:
                 xml_dictionary = xml_dictionary["MensajeHacienda"]
                 if "NumeroCedulaEmisor" in xml_dictionary:
                     cedula = xml_dictionary["NumeroCedulaEmisor"]
@@ -127,16 +117,16 @@ class XmlFinder():
 
             else:
                 documento_tipo = ""
-                if "NotaCreditoElectronica" in xml_data:
+                if "<NotaCreditoElectronica" in xml_data:
                     xml_dictionary = xml_dictionary["NotaCreditoElectronica"]
                     documento_tipo = "NotaCreditoElectronica"
-                elif "FacturaElectronica" in xml_data:
+                elif "<FacturaElectronica" in xml_data:
                     xml_dictionary = xml_dictionary["FacturaElectronica"]
                     documento_tipo = "FacturaElectronica"
-                elif "NotaDebitoElectronica" in xml_data:
+                elif "<NotaDebitoElectronica" in xml_data:
                     xml_dictionary = xml_dictionary["NotaDebitoElectronica"]
                     documento_tipo = "NotaDebitoElectronica"
-                elif "TiqueteElectronico" in xml_data:
+                elif "<TiqueteElectronico" in xml_data:
                     xml_dictionary = xml_dictionary["TiqueteElectronico"]
                     documento_tipo = "TiqueteElectronico"
 
@@ -232,5 +222,5 @@ class XmlFinder():
                         else:
                             return electronic_doc.insert_edoc_data()
 
-                print(xml_data)
+                # print(xml_data)
                 return True
