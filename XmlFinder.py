@@ -221,6 +221,5 @@ class XmlFinder():
                             return electronic_doc.update_edoc_data()
                         else:
                             return electronic_doc.insert_edoc_data()
-
-                # print(xml_data)
+                
                 return True

@@ -6,6 +6,7 @@ from PySide2.QtCore import QRunnable
 from PySide2.QtCore import QObject
 from PySide2.QtGui import QTextCursor
 from PySide2 import QtCore
+from PySide2.QtWidgets import QMessageBox
 
 import sys
 import os
@@ -30,6 +31,8 @@ class ImportDateController(QDialog):
     def __init__(self):
         super().__init__()
         self.started = False
+        self.current_user = User()
+        self.current_user.get_user_data()
         self.ui = Ui_ImportDateDialog()
         self.ui.setupUi(self)
         self.ui.date_start.setDate(QDate.currentDate())
@@ -58,10 +61,13 @@ class ImportDateController(QDialog):
         self.ui.close_button.setEnabled(False)
         self.start_date, self.end_date = self.get_start_end_date()
         self.ui.progress_text.clear()
-        self.ui.progress_text.append(
-            f"IMPORTANDO DOCUMENTOS DESDE: {self.start_date} HASTA: {self.end_date}\n")
-
-        self.run()
+        if len(self.current_user.servidor) > 0:
+            self.ui.progress_text.append(
+                f"IMPORTANDO DOCUMENTOS DESDE: {self.start_date} HASTA: {self.end_date}\n")
+            self.run()
+        else:
+            QMessageBox.critical(self, "ERROR", "Los datos del correo no están registrados. Por favor actualice la información.")        
+            self.close()
 
     def run(self):
         """ Call process """

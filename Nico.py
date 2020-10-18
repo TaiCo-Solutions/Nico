@@ -8,7 +8,7 @@ from PySide2.QtWidgets import QTableWidgetItem
 from PySide2.QtWidgets import QMessageBox
 from UserDataController import UserDataController
 from ImportDateController import ImportDateController
-from CaronteView import Ui_Caronte
+from NicoView import Ui_Nico
 from XmlDocument import XmlDocument
 import xlsxwriter
 from User import User
@@ -20,7 +20,7 @@ class Nico(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.ui = Ui_Caronte()
+        self.ui = Ui_Nico()
         self.ui.setupUi(self)
         self.setup_menu()
         self.populate_providers()

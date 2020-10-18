@@ -1,1 +1,5 @@
 venv/
+build/
+__pycache__/
+*.spec
+*.ui

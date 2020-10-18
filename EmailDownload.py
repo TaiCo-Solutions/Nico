@@ -19,14 +19,12 @@ class EmailDownload:
         self.current_user.get_user_data()
         self.text_message = text_message
         self.connection = False
-
-        self.text_message.append(
-            f"\nEstableciendo conexión con : {self.current_user.servidor}")
-        self.connection = imaplib.IMAP4_SSL(
-            self.current_user.servidor, self.current_user.puerto_entrada)
-            
+        self.text_message.append(f"\nEstableciendo conexión con : {self.current_user.servidor}")
+        self.connection = imaplib.IMAP4_SSL(self.current_user.servidor, self.current_user.puerto_entrada)
         if self.connection:
             self.start_login()
+        else:
+            self.text_message.append(f"\nERROR!:\nNo se puede conectar al servidor.")    
 
     def start_login(self):
         self.connection.login(self.current_user.correo, self.current_user.clave)
@@ -48,10 +46,13 @@ class EmailDownload:
                             self.get_attachments(raw_bytes)
                         except:
                             self.connection = imaplib.IMAP4_SSL(self.current_user.servidor, self.current_user.puerto_entrada)
-                            self.start_login()
-                            result, data = self.connection.fetch(current_email_id, '(RFC822)')
-                            raw_bytes = email.message_from_bytes(data[0][1])
-                            self.get_attachments(raw_bytes)
+                            if self.connection:
+                                self.start_login()
+                                result, data = self.connection.fetch(current_email_id, '(RFC822)')
+                                raw_bytes = email.message_from_bytes(data[0][1])
+                                self.get_attachments(raw_bytes)
+                            else:
+                                self.text_message.append(f"\nERROR!:\nNo se puede conectar al servidor.")    
                     self.text_message.append(
                         f"\n **** PROCESO FINALIZADO **** \n")
                     self.text_message.moveCursor(QTextCursor.End)

@@ -21,7 +21,7 @@ class User:
         self.pin = pin
 
     def connect_sqlite(self):
-        db_path = os.path.join(self.current_directory, "caronte.db")
+        db_path = os.path.join(self.current_directory, "nico.db")
         conn = sqlite3.connect(db_path)
         return conn
 
