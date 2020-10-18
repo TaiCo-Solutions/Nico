@@ -1,9 +1,14 @@
 # Nico
 
-Módulo desarrollado en Python que permite la descarga, almacenaje y clasificación de documentos electrónicos emitidos en formato xml bajo la estructura establecida por el Ministerio de Hacienda de Costa Rica.
+Módulo en desarrollo generado en Python 3 que permite la descarga, almacenaje y clasificación de documentos electrónicos emitidos en formato xml bajo la estructura establecida por el Ministerio de Hacienda de Costa Rica.
 
-Dichos documentos se almacenan en SQLite. Puede descargar un archivo zip con ejecutable x64 y su tabla de SQLite desde la carpeta dist.
+Dichos documentos se almacenan en SQLite. Puede descargar un archivo zip con el ejecutable x64 para Windows y su tabla de SQLite desde la carpeta dist.
 
+# Uso
+
+```
+python Nico.py
+```
 
 # Interface
 
